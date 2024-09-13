@@ -1,0 +1,22 @@
+{
+  "name": "react-tut",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "rsbuild dev --open",
+    "build": "rsbuild build",
+    "preview": "rsbuild preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^1.0.1",
+    "@rsbuild/plugin-react": "^1.0.1",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "tailwindcss": "^3.4.11",
+    "typescript": "^5.5.2"
+  }
+}
