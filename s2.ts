@@ -11,3 +11,5 @@ const a2 = (x: number) => {
   const b2 = (y: number) => x+y;
   return b2
 }
+
+const hello = (name = "Hello") => `hello ${name}`

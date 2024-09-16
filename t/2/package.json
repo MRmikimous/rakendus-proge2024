@@ -1,0 +1,24 @@
+{
+  "name": "rsbuild-svelte-ts",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "rsbuild dev --open",
+    "build": "rsbuild build",
+    "preview": "rsbuild preview",
+    "svelte-check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "svelte": "5.0.0-next.246",
+    "tailwind-merge": "^2.5.2",
+    "tailwind-variants": "^0.2.1"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^1.0.1",
+    "@rsbuild/plugin-svelte": "^1.0.1",
+    "svelte-check": "^4.0.1",
+    "tailwindcss": "^3.4.11",
+    "typescript": "^5.5.2"
+  }
+}
