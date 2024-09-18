@@ -1,7 +1,7 @@
 # React, MUI, react-router-dom (sep 17)
 
 ## 1
-[prettier conf](https://github.com/MRmikimous/Ephemeral/.prettierrc)
+[prettier conf](https://github.com/MRmikimous/Ephemeral/blob/main/.prettierrc)
 
 ## 2
 ts 5 saab template kasutada
