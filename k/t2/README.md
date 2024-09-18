@@ -8,8 +8,8 @@ ts 5 saab template kasutada
 
 ## 3
 
-[repo](https://github.com/MRmikimous/Ephemeral)
-[page](https://mrmikimous.github.io/Ephemeral/)
+- [repo](https://github.com/MRmikimous/Ephemeral)
+- [page](https://mrmikimous.github.io/Ephemeral/)
 
 ## 4
 ༼ つ ◕_◕ ༽つ
