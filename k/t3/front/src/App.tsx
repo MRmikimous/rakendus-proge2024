@@ -9,8 +9,11 @@ import {
   ListItemText,
   IconButton,
   Box,
+  ThemeProvider,
+  createTheme,
 } from '@mui/material';
 import { Delete, Check, Save, Edit } from '@mui/icons-material';
+import { yellow } from '@mui/material/colors';
 
 const URI = "http://127.0.0.1:42069/todo";
 
@@ -110,84 +113,94 @@ function App() {
     fetchTodos();
   }, []);
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: yellow[300],
+      },
+    },
+  });
+
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h2" component="h1">
-        Todo
-      </Typography>
-      <Box sx={{ display: 'flex', mb: 2 }}>
-        <TextField
-          fullWidth
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyUp={(e) => handleKeyPress(e, addTodo)}
-          label="Add a new task"
-          variant="outlined"
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={addTodo}
-          sx={{ ml: 1 }}
-        >
-          Add
-        </Button>
-      </Box>
-      <List>
-        {todos.map((todo, index) => (
-          <ListItem
-            key={index}
-            sx={{
-              textDecoration: todo.completed ? 'line-through' : 'none',
-            }}
-            secondaryAction={
-              <>
-                {nameIndex === index ? (
-                  <IconButton edge="end" aria-label="save" onClick={saveEdit}>
-                    <Save />
-                  </IconButton>
-                ) : (
-                  <IconButton edge="end" aria-label="edit" onClick={() => startEdit(index)}>
-                    <Edit />
-                  </IconButton>
-                )}
-                <IconButton
-                  edge="end"
-                  aria-label="complete"
-                  onClick={() => toggleComplete(index)}
-                >
-                  <Check />
-                </IconButton>
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() => deleteTodo(index)}
-                >
-                  <Delete />
-                </IconButton>
-              </>
-            }
+    <ThemeProvider theme={theme}>
+      <Container maxWidth="sm">
+        <Typography variant="h2" component="h1">
+          Todo
+        </Typography>
+        <Box sx={{ display: 'flex', mb: 2 }}>
+          <TextField
+            fullWidth
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyUp={(e) => handleKeyPress(e, addTodo)}
+            label="Add a new task"
+            variant="outlined"
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={addTodo}
+            sx={{ ml: 1 }}
           >
-            {nameIndex === index ? (
-              <TextField
-                fullWidth
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                onKeyUp={(e) => handleKeyPress(e, saveEdit)}
-                variant="standard"
-                autoFocus
-              />
-            ) : (
-              <ListItemText
-                primary={todo.name}
-                onClick={() => startEdit(index)}
-                sx={{ cursor: 'pointer' }}
-              />
-            )}
-          </ListItem>
-        ))}
-      </List>
-    </Container>
+            Add
+          </Button>
+        </Box>
+        <List>
+          {todos.map((todo, index) => (
+            <ListItem
+              key={index}
+              sx={{
+                textDecoration: todo.completed ? 'line-through' : 'none',
+              }}
+              secondaryAction={
+                <>
+                  {nameIndex === index ? (
+                    <IconButton edge="end" aria-label="save" onClick={saveEdit}>
+                      <Save />
+                    </IconButton>
+                  ) : (
+                    <IconButton edge="end" aria-label="edit" onClick={() => startEdit(index)}>
+                      <Edit />
+                    </IconButton>
+                  )}
+                  <IconButton
+                    edge="end"
+                    aria-label="complete"
+                    onClick={() => toggleComplete(index)}
+                  >
+                    <Check />
+                  </IconButton>
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => deleteTodo(index)}
+                  >
+                    <Delete />
+                  </IconButton>
+                </>
+              }
+            >
+              {nameIndex === index ? (
+                <TextField
+                  fullWidth
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  onKeyUp={(e) => handleKeyPress(e, saveEdit)}
+                  variant="standard"
+                  autoFocus
+                />
+              ) : (
+                <ListItemText
+                  primary={todo.name}
+                  onClick={() => startEdit(index)}
+                  sx={{ cursor: 'pointer' }}
+                />
+              )}
+            </ListItem>
+          ))}
+        </List>
+      </Container>
+    </ThemeProvider>
   );
 }
 
