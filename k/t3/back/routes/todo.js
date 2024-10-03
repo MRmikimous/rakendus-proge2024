@@ -1,4 +1,5 @@
 import express from "express";
+import { body } from "express-validator";
 
 const router = express.Router();
 export default router;
@@ -35,7 +36,7 @@ const todos = [
     completed: true
   }];
 
-router.get("/", (req, res) => {
+router.get("/", (_, res) => {
 
   /** @type {todo[]} */
   const todo = todos.filter((todo) => !todo.deleted);
@@ -43,80 +44,74 @@ router.get("/", (req, res) => {
   res.status(200).json(todo);
 });
 
-router.post("/", (req, res) => {
+router.post("/",
+  body("name").isString(),
+  (req, res) => {
 
-  if (!req.body.name) {
-    return res.status(400).json({ error: "Name is required" });
-  }
+    /** @type {todo} */
+    const todo = {
+      id: crypto.randomUUID(),
+      name: req.body.name,
+      priority: req.body.priority || 0,
+      createdAt: Date.now(),
+      updatedAt: undefined,
+      deleted: false,
+      completed: false
+    };
 
-  /** @type {todo} */
-  const todo = {
-    id: crypto.randomUUID(),
-    name: req.body.name,
-    priority: req.body.priority || 0,
-    createdAt: Date.now(),
-    updatedAt: undefined,
-    deleted: false,
-    completed: false
-  };
+    todos.push(todo);
 
-  todos.push(todo);
+    res.status(201).json(todo);
 
-  res.status(201).json(todo);
+  });
 
-});
+router.put("/",
+  body("id").isString().isUUID(),
+  (req, res) => {
 
-router.put("/", (req, res) => {
+    /** @type {todo} */
+    const todo = todos.find((t) => t.id === req.body.id);
 
-  if (!req.body.id) {
-    return res.status(400).json({ error: "Id is required" });
-  }
+    if (!todo) {
+      return res.status(404).json({ error: "Not found" });
+    }
 
-  /** @type {todo} */
-  const todo = todos.find((t) => t.id === req.body.id);
+    if (req.body.name !== undefined) {
+      todo.name = req.body.name;
+    }
 
-  if (!todo) {
-    return res.status(404).json({ error: "Not found" });
-  }
+    if (req.body.priority !== undefined) {
+      todo.priority = req.body.priority;
+    }
 
-  if (req.body.name !== undefined) {
-    todo.name = req.body.name;
-  }
+    if (req.body.completed !== undefined) {
+      todo.completed = req.body.completed;
+    }
 
-  if (req.body.priority !== undefined) {
-    todo.priority = req.body.priority;
-  }
+    if (req.body.deleted !== undefined) {
+      todo.deleted = req.body.deleted;
+    }
 
-  if (req.body.completed !== undefined) {
-    todo.completed = req.body.completed;
-  }
+    todo.updatedAt = Date.now();
 
-  if (req.body.deleted !== undefined) {
-    todo.deleted = req.body.deleted;
-  }
+    res.status(200).json(todo);
+  });
 
-  todo.updatedAt = Date.now();
+router.delete("/",
+  body("id").isString().isUUID(),
+  (req, res) => {
 
-  res.status(200).json(todo);
-});
+    /** @type {todo} */
+    const todo = todos.find((t) => t.id === req.body.id);
 
-router.delete("/", (req, res) => {
+    if (!todo) {
+      return res.status(404).json({ error: "Not found" });
+    }
 
-  if (!req.body.id) {
-    return res.status(400).json({ error: "Id is required" });
-  }
+    todo.deleted = true;
+    res.status(204).json(todo);
+  });
 
-  /** @type {todo} */
-  const todo = todos.find((t) => t.id === req.body.id);
-
-  if (!todo) {
-    return res.status(404).json({ error: "Not found" });
-  }
-
-  todo.deleted = true;
-  res.status(204).json(todo);
-});
-
-router.get("/all", (req, res) => {
+router.get("/all", (_, res) => {
   res.status(200).json(todos);
 })
